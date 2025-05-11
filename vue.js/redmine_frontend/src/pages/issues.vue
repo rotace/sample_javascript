@@ -1,9 +1,21 @@
 <template>
   <v-container>
-    Issues
+    <v-card variant="outlined">
+      <v-card-title>Issue Lists</v-card-title>
+      <v-list>
+        <v-list-item v-for="item in items" :key="item.id" :value="item">
+          <v-list-item-title>{{ item.subject }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-card>
   </v-container>
 </template>
 
 <script setup>
-  //
+  import api from '../api'
+  const items = ref([])
+  onMounted(async () => {
+    const data = await api.get('/api/issues.json')
+    data.issues.forEach(item => {items.value.push(item)})
+  })
 </script>

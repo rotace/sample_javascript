@@ -41,6 +41,7 @@ export default defineConfig({
         'vue',
         VueRouterAutoImports,
         {
+          'vue-router': ['useRouter'],
           'pinia': ['defineStore', 'storeToRefs'],
         },
       ],
@@ -77,21 +78,21 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      "/api/": {
-        target: "http://localhost:8080/",
+      '/api/': {
+        target: 'http://localhost:8080/',
         changeOrigin: true,
-        rewrite: (path) => path.replace('/api/', ''),
-        configure: (proxy, options) => {
-          proxy.on('proxyReq', (proxyReq, req, res) => {
+        rewrite: path => path.replace('/api/', ''),
+        configure: proxy => {
+          proxy.on('proxyReq', (proxyReq, req) => {
             console.log('Proxy Request:', req.url);
             // Redmineの適当なユーザのAPIキーをここに書き込む
             proxyReq.setHeader('X-Redmine-API-Key', 'd1c031b036ba6f8675236deba24beebe1a613a4c');
           });
-          proxy.on('proxyRes', (proxyRes, req, res) => {
+          proxy.on('proxyRes', proxyRes => {
             console.log('Proxy Response:', proxyRes.statusCode);
           });
-        }
-      }
+        },
+      },
     },
   },
   css: {
