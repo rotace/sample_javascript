@@ -25,6 +25,7 @@ Webアプリケーション学習のために、RedmineのフロントエンドW
 
 * vue（フロントエンドフレームワーク）
 * vue-router（ルーティング）
+* vue-devtools（開発ツール）
 * vuetify（UIコンポーネント・UIデザイン）
 * pinia（状態管理ツール）
 * vite（ビルドツール）
