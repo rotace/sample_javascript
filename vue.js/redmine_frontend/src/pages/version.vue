@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    Hello World
+    Version
   </v-container>
 </template>
 
