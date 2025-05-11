@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card variant="outlined">
-      <v-card-title>Field Lists</v-card-title>
+      <v-card-title>Fields</v-card-title>
       <v-list>
         <v-list-item v-for="item in items" :key="item.id" :value="item">
           <v-list-item-title>{{ item.name }}</v-list-item-title>

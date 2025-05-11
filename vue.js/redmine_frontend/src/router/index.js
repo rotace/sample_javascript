@@ -5,13 +5,26 @@
  */
 
 // Composables
-import { createRouter, createWebHistory } from 'vue-router/auto'
+import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 
+const allRoutes = routes.concat([
+  {
+    path: '/projects/:id',
+    name: 'Project',
+    component: () => import('@/views/Project.vue'),
+  },
+  {
+    path: '/projects/:id/issues',
+    name: 'Project Issues',
+    component: () => import('@/views/ProjectIssues.vue'),
+  },
+])
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: setupLayouts(routes),
+  routes: setupLayouts(allRoutes),
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
