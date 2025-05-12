@@ -19,4 +19,4 @@ const vuetify = createVuetify({
     }
 })
 
-createApp(App).mount('#app')
+createApp(App).use(vuetify).mount('#app')
