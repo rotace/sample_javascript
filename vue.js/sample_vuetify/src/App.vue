@@ -18,8 +18,8 @@
           </v-card>
         </template> 
         <!-- アクティベータスロット（ボトムシートのトリガー要素） -->
-        <template v-slot:activator="activatorProps">
-          <v-icon icon="mdi-wifi-strength-4" class="ms-2" v-bind="activatorProps.props"></v-icon>
+        <template v-slot:activator="{ props }">
+          <v-icon icon="mdi-wifi-strength-4" class="ms-2" v-bind="props"></v-icon>
         </template>
       </v-bottom-sheet>
 
@@ -32,8 +32,8 @@
           </v-card>
         </template> 
         <!-- アクティベータスロット（ボトムシートのトリガー要素） -->
-        <template v-slot:activator="activatorProps">
-          <v-icon icon="mdi-signal" class="ms-2" v-bind="activatorProps.props"></v-icon>
+        <template v-slot:activator="{ props }">
+          <v-icon icon="mdi-signal" class="ms-2" v-bind="props"></v-icon>
         </template>
       </v-bottom-sheet>
 
@@ -46,8 +46,8 @@
           </v-card>
         </template> 
         <!-- アクティベータスロット（ボトムシートのトリガー要素） -->
-        <template v-slot:activator="activatorProps">
-          <v-icon icon="mdi-battery" class="ms-2" v-bind="activatorProps.props"></v-icon>
+        <template v-slot:activator="{ props }">
+          <v-icon icon="mdi-battery" class="ms-2" v-bind="props"></v-icon>
         </template>
       </v-bottom-sheet>
 
@@ -60,18 +60,36 @@
           </v-card>
         </template>
         <!-- アクティベータスロット（ボトムシートのトリガー要素） -->
-        <template v-slot:activator="activatorProps">
-          <button class="ms-2" v-bind="activatorProps.props">3:13PM</button>
+        <template v-slot:activator="{ props }">
+          <button class="ms-2" v-bind="props">3:13PM</button>
         </template>
       </v-bottom-sheet>
       
     </v-system-bar>
 
     <!-- アプリケーションバー -->
-    <v-app-bar title="Header"></v-app-bar>
+    <v-app-bar title="Header">
+      
+      <v-btn prepend-icon="mdi-target" @click="nav1State = !nav1State" :active="nav1State">Targets</v-btn>
+      <v-btn prepend-icon="mdi-alpha-u-circle-outline" @click="nav2State = !nav2State" :active="nav2State">Units</v-btn>
+      <v-btn prepend-icon="mdi-alpha-p-circle-outline" @click="nav3State = !nav3State" :active="nav3State">Plans</v-btn>
+      <v-divider class="mx-2" vertical></v-divider>
+      <v-btn icon="mdi-tag"></v-btn>
+      <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+        <v-menu activator="parent">
+          <v-list>
+            <v-list-item v-for="i in 3">
+              <v-list-item-title>Menu {{ i }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-btn>
+
+    </v-app-bar>
 
     <!-- ナビゲーション１ -->
-    <v-navigation-drawer permanent>
+    <v-navigation-drawer v-model="nav1State" permanent>
       <v-list-item v-for="i in 20">
         <v-card variant="tonal" @click="console.log(`Item${i}`)">
           <v-card-title>Item{{ i }}</v-card-title>
@@ -81,7 +99,7 @@
     </v-navigation-drawer>
 
     <!-- ナビゲーション２ -->
-    <v-navigation-drawer permanent>
+    <v-navigation-drawer v-model="nav2State" permanent>
       <v-list-item v-for="i in 20" lines="three" @click="console.log('navi')">
         
         <v-list-item-title>
@@ -102,7 +120,7 @@
     </v-navigation-drawer>
 
     <!-- ナビゲーション３ -->
-    <v-navigation-drawer location="right" permanent >
+    <v-navigation-drawer v-model="nav3State" location="right" permanent >
       <v-list-item v-for="i in 20">
         <v-card @click="console.log(`Item${i}`)">
           <v-card-title>Item{{ i }}</v-card-title>
@@ -161,6 +179,9 @@
   const signalState = ref(false)
   const batteryState = ref(false)
   const clockState = ref(false)
+  const nav1State = ref(true)
+  const nav2State = ref(true)
+  const nav3State = ref(true)
   const btmNavState = ref(1)
 </script>
 
