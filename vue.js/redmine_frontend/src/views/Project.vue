@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-  import api from '../api'
+  import api from '@/api'
   import { useRoute } from 'vue-router'
   const project = ref(null)
   const route = useRoute()

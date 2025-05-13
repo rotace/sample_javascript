@@ -11,7 +11,6 @@ async function get (url) {
     console.log(error);
   } finally {
     // always executed(axiosの処理結果によらずいつも実行させたい処理を記述)
-    console.log('message');
   }
 }
 

@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-  import api from '../api'
+  import api from '@/api'
   import { useRouter } from 'vue-router'
   const items = ref([])
   const router = useRouter()

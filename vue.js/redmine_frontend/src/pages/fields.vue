@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-  import api from '../api'
+  import api from '@/api'
   const items = ref([])
   onMounted(async () => {
     const data = await api.get('/api/custom_fields.json')
