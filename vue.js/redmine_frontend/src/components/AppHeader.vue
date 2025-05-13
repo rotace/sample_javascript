@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-  import { useRouter } from 'vue-router'
-  const drawer = ref(false)
-  const router = useRouter()
+import { useRouter } from 'vue-router'
+const drawer = ref(false)
+const router = useRouter()
 </script>

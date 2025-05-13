@@ -8,12 +8,12 @@
 </template>
 
 <script setup>
-  import api from '@/api'
-  import { useRoute } from 'vue-router'
-  const project = ref(null)
-  const route = useRoute()
-  onMounted(async () => {
-    const projectData = await api.get(`/api/projects/${route.params.id}.json`)
-    project.value = projectData.project
-  })
+import api from '@/api'
+import { useRoute } from 'vue-router'
+const project = ref(null)
+const route = useRoute()
+onMounted(async () => {
+  const projectData = await api.get(`/api/projects/${route.params.id}.json`)
+  project.value = projectData.project
+})
 </script>

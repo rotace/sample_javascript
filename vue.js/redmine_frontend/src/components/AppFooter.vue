@@ -1,7 +1,5 @@
 <template>
-  <v-footer
-    app
-  />
+  <v-footer app />
 </template>
 
 <script setup>
