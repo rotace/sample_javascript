@@ -18,6 +18,7 @@
 
   <v-footer app color="primary">
     <v-btn class="mr-2" @click="router.push(`/issues/${route.params.id}/edit`)">Edit</v-btn>
+    <v-btn class="mr-2" @click="remove">Remove</v-btn>
   </v-footer>
 </template>
 
@@ -43,4 +44,9 @@ onMounted(async () => {
   });
   // table.value.push({ name: 'Json', value: issue.value })
 })
+
+async function remove() {
+  await api.del(`/api/issues/${route.params.id}.json`)
+  router.push('/issues')
+}
 </script>

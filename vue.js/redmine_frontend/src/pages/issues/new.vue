@@ -1,6 +1,7 @@
 <template>
-  <v-form>
+  <v-form @submit.prevent>
     <v-container>
+      <v-text-field v-model="subject" label="表題" />
       <v-select v-model="selectedProjectId" item-title="name" item-value="id" :items="projects" label="プロジェクト"
         :rules="[v => !!v || 'Project is required.']" />
       <v-select v-model="selectedTrackerId" item-title="name" item-value="id" :items="trackers" label="トラッカー"
@@ -9,7 +10,8 @@
         label="バージョン" :rules="[v => !!v || 'Version is required.']" />
       <v-select v-show="hasCategory" v-model="selectedCategoryId" item-title="name" item-value="id" :items="categories"
         label="カテゴリ" :rules="[v => !!v || 'Category is required.']" />
-      <v-text-field v-for="field in customFields" :key="field.id" :label="field.name" :rules="nameRules" />
+      <v-text-field v-for="field in customFields" :key="field.id" :label="field.name" v-model="field.value"
+        :rules="nameRules" />
     </v-container>
 
     <v-footer app color="primary">
@@ -17,7 +19,7 @@
         <v-row>
           <v-btn class="mr-2" type="validate">Validate</v-btn>
           <v-btn class="mr-2" type="reset">Reset</v-btn>
-          <v-btn class="mr-2" type="submit">Submit</v-btn>
+          <v-btn class="mr-2" type="submit" @click="submit">Submit</v-btn>
         </v-row>
       </v-container>
     </v-footer>
@@ -26,8 +28,9 @@
 
 <script setup>
 import api from '@/api'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
+const router = useRouter()
 
 const nameRules = ref([
   v => {
@@ -39,6 +42,8 @@ const nameRules = ref([
     return 'Name must be less than 10 characters.'
   },
 ])
+
+const subject = ref('')
 
 const projects = ref([])
 const selectedProjectId = ref(null)
@@ -103,5 +108,20 @@ watch(selectedTrackerId, async newId => {
     hasCategory.value = _fields.includes('category_id')
   }
 })
+
+async function submit() {
+  const data = {
+    issue: {
+      subject: subject.value,
+      project_id: selectedProjectId.value,
+      tracker_id: selectedTrackerId.value,
+      ...(hasVersion ? { fixed_version_id: selectedVersionId.value } : {}),
+      ...(hasCategory ? { category_id: selectedCategoryId.value } : {}),
+      custom_fields: customFields.value,
+    },
+  }
+  await api.post('/api/issues.json', data)
+  router.push('/issues')
+}
 
 </script>
