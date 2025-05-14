@@ -15,13 +15,18 @@
       </tbody>
     </v-table>
   </v-container>
+
+  <v-footer app color="primary">
+    <v-btn class="mr-2" @click="router.push(`/issues/${route.params.id}/edit`)">Edit</v-btn>
+  </v-footer>
 </template>
 
 <script setup>
 import api from '@/api'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const issue = ref(null)
 const route = useRoute()
+const router = useRouter()
 const table = ref([])
 onMounted(async () => {
   const issueData = await api.get(`/api/issues/${route.params.id}.json`)

@@ -12,18 +12,23 @@ import { routes } from 'vue-router/auto-routes'
 const allRoutes = routes.concat([
   {
     path: '/issues/:id',
-    name: 'Issue',
-    component: () => import('@/views/Issue.vue'),
+    name: 'Get Issue',
+    component: () => import('@/views/IssueGet.vue'),
+  },
+  {
+    path: '/issues/:id/edit',
+    name: 'Edit Issue',
+    component: () => import('@/views/IssueEdit.vue'),
   },
   {
     path: '/projects/:id',
-    name: 'Project',
-    component: () => import('@/views/Project.vue'),
+    name: 'Get Project',
+    component: () => import('@/views/ProjectGet.vue'),
   },
   {
     path: '/projects/:id/issues',
-    name: 'Project Issues',
-    component: () => import('@/views/ProjectIssues.vue'),
+    name: 'Get Project Issues',
+    component: () => import('@/views/ProjectIssuesGet.vue'),
   },
 ])
 

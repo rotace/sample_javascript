@@ -10,8 +10,9 @@
     </v-card>
   </v-container>
 
-  <v-fab app color="secondary" elevation="8" icon="mdi-plus"
-    @click="router.push(`/issues/new?project=${project?.id}`)" />
+  <v-footer app color="primary">
+    <v-btn class="mr-2" @click="router.push(`/issues/new?project=${project?.id}`)">Create</v-btn>
+  </v-footer>
 </template>
 
 <script setup>

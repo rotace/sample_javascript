@@ -9,7 +9,8 @@
         label="バージョン" :rules="[v => !!v || 'Version is required.']" />
       <v-select v-show="hasCategory" v-model="selectedCategoryId" item-title="name" item-value="id" :items="categories"
         label="カテゴリ" :rules="[v => !!v || 'Category is required.']" />
-      <v-text-field v-for="field in customFields" :key="field.id" :label="field.name" :rules="nameRules" />
+      <v-text-field v-for="(field, index) in customFields" :key="field.id" :label="field.name"
+        v-model="inputedFieldData[index]" :rules="nameRules" />
     </v-container>
 
     <v-footer app color="primary">
@@ -40,6 +41,8 @@ const nameRules = ref([
   },
 ])
 
+const issue = ref(null)
+
 const projects = ref([])
 const selectedProjectId = ref(null)
 
@@ -55,38 +58,39 @@ const hasCategory = ref(false)
 const selectedCategoryId = ref(null)
 
 const customFields = ref([])
+const inputedFieldData = ref([])
 
 // 読み込み時
 onMounted(async () => {
-  const _projects = await api.get('/api/projects.json')
-  _projects.projects.forEach(item => { projects.value.push(item) })
-  selectedProjectId.value = projects.value.find(item => item.id == route.query.project)?.id
-})
+  const _issue = await api.get(`/api/issues/${route.params.id}.json`)
+  issue.value = _issue.issue
 
-// プロジェクト選択時
-watch(selectedProjectId, async newId => {
+  // プロジェクト
+  const _project = await api.get(`/api/projects/${issue.value.project.id}.json?include=trackers,issue_categories,issue_custom_fields`)
+  projects.value.length = 0
+  projects.value.push(_project.project)
+  selectedProjectId.value = issue.value.project.id
 
-  if (newId != null) {
-    console.log(newId)
-    const _project = await api.get(`/api/projects/${newId}.json?include=trackers,issue_categories,issue_custom_fields`)
+  // トラッカー
+  trackers.value.length = 0
+  _project.project?.trackers?.forEach(item => { trackers.value.push(item) })
+  selectedTrackerId.value = issue.value.tracker.id
 
-    // トラッカー
-    trackers.value.length = 0
-    _project.project?.trackers?.forEach(item => { trackers.value.push(item) })
+  // カテゴリ
+  categories.value.length = 0
+  _project.project?.issue_categories?.forEach(item => { categories.value.push(item) })
+  selectedCategoryId.value = issue.value.category.id
 
-    // カテゴリ
-    categories.value.length = 0
-    _project.project?.issue_categories?.forEach(item => { categories.value.push(item) })
+  // バージョン
+  versions.value.length = 0
+  const _versions = await api.get(`/api/projects/${issue.value.project.id}/versions.json`)
+  _versions.versions?.forEach(item => { versions.value.push(item) })
+  selectedVersionId.value = issue.value.fixed_version.id
 
-    // カスタムフィールド
-    customFields.value.length = 0
-    _project.project?.issue_custom_fields?.forEach(item => { customFields.value.push(item) })
-
-    // バージョン
-    versions.value.length = 0
-    const _versions = await api.get(`/api/projects/${newId}/versions.json`)
-    _versions.versions?.forEach(item => { versions.value.push(item) })
-  }
+  // カスタムフィールド
+  customFields.value.length = 0
+  issue.value.custom_fields?.forEach(item => { inputedFieldData.value.push(item.value) })
+  issue.value.custom_fields?.forEach(item => { customFields.value.push(item) })
 })
 
 // トラッカー選択時
