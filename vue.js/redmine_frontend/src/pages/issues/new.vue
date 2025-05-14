@@ -72,7 +72,6 @@ onMounted(async () => {
 watch(selectedProjectId, async newId => {
 
   if (newId != null) {
-    console.log(newId)
     const _project = await api.get(`/api/projects/${newId}.json?include=trackers,issue_categories,issue_custom_fields`)
 
     // トラッカー

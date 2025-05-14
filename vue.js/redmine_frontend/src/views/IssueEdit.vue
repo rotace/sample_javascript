@@ -124,7 +124,6 @@ async function submit() {
       custom_fields: customFields.value,
     },
   }
-  console.log(data)
   await api.put(`/api/issues/${route.params.id}.json`, data)
   router.push(`/issues/${route.params.id}`)
 }

@@ -31,7 +31,6 @@ const router = useRouter()
 const table = ref([])
 onMounted(async () => {
   const issueData = await api.get(`/api/issues/${route.params.id}.json`)
-  console.log(issueData)
   issue.value = issueData.issue
   table.value.push({ name: 'Id', value: issue.value.id })
   table.value.push({ name: 'Subject', value: issue.value.subject })
